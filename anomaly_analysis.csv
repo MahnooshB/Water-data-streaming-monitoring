@@ -1,0 +1,244 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Oct 16 20:26:08 2026
+
+@author: Mahnoosh
+"""
+
+import csv
+
+
+TIME_SERIES_FILE = "time_series_summary.csv"
+ALERTS_FILE = "alerts.csv"
+OUTPUT_FILE = "anomaly_report.csv"
+
+
+def load_time_series():
+
+    records = []
+
+    with open(
+        TIME_SERIES_FILE,
+        "r",
+        newline="",
+        encoding="utf-8"
+    ) as file:
+
+        reader = csv.DictReader(file)
+
+        for row in reader:
+            records.append(row)
+
+    return records
+
+
+def load_alerts():
+
+    alerts = []
+
+    with open(
+        ALERTS_FILE,
+        "r",
+        newline="",
+        encoding="utf-8"
+    ) as file:
+
+        reader = csv.DictReader(file)
+
+        for row in reader:
+            alerts.append(row)
+
+    return alerts
+
+
+def analyze_anomalies():
+
+    records = load_time_series()
+    alerts = load_alerts()
+
+    anomalies = []
+
+    # --------------------------------
+    # Calculate baseline metrics
+    # --------------------------------
+
+    if not records:
+        print("No time-series records found.")
+        return
+
+    error_rates = [
+        float(row["error_rate_percent"])
+        for row in records
+    ]
+
+    response_times = [
+        float(row["average_response_time_ms"])
+        for row in records
+        if float(row["average_response_time_ms"]) > 0
+    ]
+
+    confidences = [
+        float(row["average_confidence"])
+        for row in records
+        if float(row["average_confidence"]) > 0
+    ]
+
+    average_error_rate = (
+        sum(error_rates) / len(error_rates)
+    )
+
+    average_response_time = (
+        sum(response_times) / len(response_times)
+        if response_times else 0
+    )
+
+    average_confidence = (
+        sum(confidences) / len(confidences)
+        if confidences else 0
+    )
+
+    # --------------------------------
+    # Detect unusual time windows
+    # --------------------------------
+
+    for row in records:
+
+        timestamp = row["timestamp"]
+
+        error_rate = float(
+            row["error_rate_percent"]
+        )
+
+        response_time = float(
+            row["average_response_time_ms"]
+        )
+
+        confidence = float(
+            row["average_confidence"]
+        )
+
+        # High error rate
+        if (
+            error_rate > average_error_rate * 1.5
+            and error_rate > 0
+        ):
+
+            anomalies.append({
+                "timestamp": timestamp,
+                "event_type": "HIGH_ERROR_RATE",
+                "observed_value": round(error_rate, 2),
+                "baseline_value": round(
+                    average_error_rate, 2
+                ),
+                "description":
+                    "Error rate is significantly above average."
+            })
+
+        # High response time
+        if (
+            response_time > average_response_time * 1.5
+            and average_response_time > 0
+        ):
+
+            anomalies.append({
+                "timestamp": timestamp,
+                "event_type": "HIGH_RESPONSE_TIME",
+                "observed_value": round(response_time, 2),
+                "baseline_value": round(
+                    average_response_time, 2
+                ),
+                "description":
+                    "Response time is significantly above average."
+            })
+
+        # Low confidence
+        if (
+            confidence < average_confidence * 0.9
+            and confidence > 0
+        ):
+
+            anomalies.append({
+                "timestamp": timestamp,
+                "event_type": "LOW_CONFIDENCE",
+                "observed_value": round(confidence, 2),
+                "baseline_value": round(
+                    average_confidence, 2
+                ),
+                "description":
+                    "Model confidence is below the expected level."
+            })
+
+    # --------------------------------
+    # Save anomaly report
+    # --------------------------------
+
+    fields = [
+        "timestamp",
+        "event_type",
+        "observed_value",
+        "baseline_value",
+        "description"
+    ]
+
+    with open(
+        OUTPUT_FILE,
+        "w",
+        newline="",
+        encoding="utf-8"
+    ) as file:
+
+        writer = csv.DictWriter(
+            file,
+            fieldnames=fields
+        )
+
+        writer.writeheader()
+        writer.writerows(anomalies)
+
+    # --------------------------------
+    # Print summary
+    # --------------------------------
+
+    print("=" * 45)
+    print(" ANOMALY ANALYSIS")
+    print("=" * 45)
+
+    print(
+        "Average Error Rate:",
+        round(average_error_rate, 2),
+        "%"
+    )
+
+    print(
+        "Average Response Time:",
+        round(average_response_time, 2),
+        "ms"
+    )
+
+    print(
+        "Average Confidence:",
+        round(average_confidence, 2)
+    )
+
+    print("-" * 45)
+
+    print(
+        "Time-series anomalies:",
+        len(anomalies)
+    )
+
+    print(
+        "Existing alerts:",
+        len(alerts)
+    )
+
+    print(
+        "Report created:",
+        OUTPUT_FILE
+    )
+
+    print("=" * 45)
+
+
+if __name__ == "__main__":
+    analyze_anomalies()

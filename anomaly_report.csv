@@ -1,0 +1,4 @@
+timestamp,event_type,observed_value,baseline_value,description
+2026-09-10 23:35,HIGH_ERROR_RATE,4.1,2.32,Error rate is significantly above average.
+2026-09-10 23:52,HIGH_RESPONSE_TIME,94.24,58.85,Response time is significantly above average.
+2026-09-10 23:59,HIGH_ERROR_RATE,3.57,2.32,Error rate is significantly above average.

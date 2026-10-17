@@ -1,0 +1,4 @@
+model_name,records,average_response_time_ms,minimum_response_time_ms,maximum_response_time_ms,average_confidence,total_alerts
+demand_forecaster,19171,89.5,22.5,315.3,0.7,0
+leak_detector,19442,34.96,5.0,64.3,0.83,12
+pressure_drop_predictor,19491,55.07,17.2,93.3,0.78,0

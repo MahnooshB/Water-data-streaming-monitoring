@@ -1,0 +1,25 @@
+# Raw streaming data
+readings_clean.csv
+bad_readings.csv
+alerts.csv
+
+# PDF and archive files
+*.pdf
+*.rar
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE settings
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
