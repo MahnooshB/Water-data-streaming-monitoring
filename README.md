@@ -170,6 +170,14 @@ Introduce automated testing and continuous integration.
 ⚠️ Disclaimer
 This project is intended for educational and portfolio purposes and uses simulated water-network data. It is not a production-ready water infrastructure monitoring system.
 
+## 📄 License
+
+
+
+This project is licensed under the MIT License.
+
+See the [LICENSE](LICENSE) file for details.
+
 👩‍💻 Author
 Mahnoosh Bagheri
 
