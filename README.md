@@ -1,82 +1,176 @@
-Water Data Streaming and Monitoring
-Overview
-This project implements a Python-based data streaming and monitoring pipeline for simulated water network data. It focuses on data validation, data quality monitoring, model performance analysis, anomaly analysis, and time-series reporting.
+🌊 Water Data Streaming & Monitoring
+A Python-Based Pipeline for Real-Time Data Quality, Anomaly Analysis, and AI Model Monitoring
+Python Data Streaming Monitoring Status
 
-The project simulates a streaming environment in which water-network-related AI models generate predictions that are transmitted, validated, and analyzed.
+📌 Overview
+Water Data Streaming & Monitoring is a Python-based project that simulates a real-time data pipeline for monitoring AI predictions in a water network environment.
 
-Key Features
-Real-Time Data Streaming: Simulates continuous transmission of prediction records.
-Data Validation: Validates incoming records and identifies malformed or invalid data.
+The system generates streaming records, receives and validates incoming data, tracks data quality, and analyzes model performance over time.
+
+The project demonstrates practical concepts in data engineering, streaming data processing, data quality validation, monitoring, and analytical reporting.
+
+✨ Key Features
+Real-Time Data Streaming: Simulates the continuous transmission of prediction records.
+Data Validation: Identifies malformed JSON records and invalid field values.
 Data Quality Monitoring: Tracks valid and invalid records and calculates error rates.
-Model Performance Analysis: Summarizes response times and confidence scores across models.
-Anomaly Analysis: Supports analysis of unusual patterns in the collected data.
+Model Performance Analysis: Compares model response times and confidence scores.
+Anomaly Analysis: Analyzes unusual patterns in collected records.
 Alert Analysis: Summarizes monitoring alerts and their distribution across models.
-Time-Series Analysis: Examines metrics over time.
-Visualization: Generates charts for monitoring error rates, response times, confidence scores, and alerts.
-Project Structure
-water-data-streaming/
+Time-Series Analysis: Examines monitoring metrics over time.
+Data Visualization: Generates charts for performance, confidence, errors, and alerts.
+🏗️ Architecture
+The project follows a streaming-and-analysis workflow:
+
+┌──────────────────────────┐
+│  Streaming Data Server   │
+│ water_ai_stream_server.py│
+└────────────┬─────────────┘
+             │
+             │ TCP / JSON
+             ▼
+┌──────────────────────────┐
+│     Data Receiver        │
+│         main.py          │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│    Data Validation       │
+│       validator.py       │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│ Data Storage & Monitoring│
+│      CSV Records         │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│   Analysis & Reporting   │
+│ Performance / Anomalies  │
+│ Alerts / Time Series     │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│ Charts & Dashboards       │
+└──────────────────────────┘
+Note: This diagram represents the intended workflow. The exact processing and storage behavior depends on the implementation of each module.
+
+🛠️ Technology Stack
+Technology	Purpose
+Python	Core implementation
+TCP Sockets	Streaming communication
+JSON	Data serialization and transmission
+CSV	Record storage and analysis
+Pandas / NumPy	Data processing, where used
+Matplotlib	Visualization, where used
+📂 Project Structure
+Water-data-streaming-monitoring/
+│
+├── water_ai_stream_server.py
 ├── main.py
 ├── validator.py
-├── water_ai_stream_server.py
+│
 ├── alert_analysis.py
 ├── model_performance.py
 ├── model_performance_summary.py
 ├── summary_analysis.py
 ├── time_series_analysis.py
 ├── time_series_summary.py
+│
 ├── dashboard.py
 ├── dashboard_data.py
 ├── time_series_dashboard.py
+│
+├── alert_summary.csv
+├── anomaly_analysis.csv
+├── anomaly_report.csv
+├── model_performance_summary.csv
+├── time_series_summary.csv
+│
+├── alerts_by_model.png
+├── confidence_by_model.png
+├── confidence_over_time.png
+├── error_rate_over_time.png
+├── response_time_by_model.png
+├── response_time_over_time.png
+│
 ├── .gitignore
 └── README.md
-Analysis outputs and visualization files are also included in the repository.
+📊 Results & Visualizations
+The project includes visualizations for monitoring the quality and performance of streaming records.
 
-Technologies
-Python
-TCP socket communication
-JSON
-CSV
-Data validation and quality monitoring
-Time-series analysis
-Data visualization
-Getting Started
+Error Rate Over Time
+Error Rate Over Time
+
+Response Time by Model
+Response Time by Model
+
+Response Time Over Time
+Response Time Over Time
+
+Confidence Scores by Model
+Confidence Scores by Model
+
+Confidence Scores Over Time
+Confidence Scores Over Time
+
+Alerts by Model
+Alerts by Model
+
+🚀 Getting Started
 Prerequisites
 Python 3.9 or later
-Required Python packages (to be documented in requirements.txt)
-Running the Streaming Server
-Open a terminal in the project directory and run:
+Git
+The Python packages required by the project
+1. Clone the Repository
+git clone https://github.com/MahnooshB/Water-data-streaming-monitoring.git
+cd Water-data-streaming-monitoring
+2. Install Dependencies
+Once the dependency file is available, install the required packages using:
+
+pip install -r requirements.txt
+3. Start the Streaming Server
+Open a terminal and run:
 
 python water_ai_stream_server.py
-Running the Receiver
+4. Start the Receiver
 Open a second terminal and run:
 
 python main.py
-The server and receiver should run simultaneously if the receiver is designed to connect to the server.
+The server and receiver are intended to run concurrently. Confirm that the receiver's connection settings match the server configuration before execution.
 
-Analysis and Visualization
-The analysis scripts process collected records and generate summary tables or visualizations.
+📈 Analytical Modules
+Module	Purpose
+alert_analysis.py	Alert analysis
+model_performance.py	Model performance analysis
+model_performance_summary.py	Model performance summaries
+summary_analysis.py	General analytical summaries
+time_series_analysis.py	Time-series analysis
+time_series_summary.py	Time-series summaries
+dashboard.py	Dashboard functionality
+dashboard_data.py	Dashboard data processing
+time_series_dashboard.py	Time-series dashboard functionality
+🔒 Data Management
+Raw streaming records and files with .pdf and .rar extensions are excluded from version control through .gitignore.
 
-Examples of available outputs include:
+The repository contains selected analytical outputs and visualizations. Before using the project with real infrastructure data, additional security, privacy, and operational controls would be required.
 
-Error rate over time
-Response time over time
-Response time by model
-Confidence scores by model
-Confidence scores over time
-Alerts by model
-The exact execution order and dependencies between analysis scripts should be verified before running them independently.
+🔮 Future Improvements
+Add automated unit and integration tests.
+Document the data schema and validation rules.
+Provide a reproducible Python environment.
+Expand monitoring and anomaly detection capabilities.
+Improve dashboard interactivity.
+Add representative sample datasets.
+Document measured throughput, latency, and data quality metrics.
+Introduce automated testing and continuous integration.
+⚠️ Disclaimer
+This project is intended for educational and portfolio purposes and uses simulated water-network data. It is not a production-ready water infrastructure monitoring system.
 
-Data and Reproducibility
-The project uses CSV files to store streaming records and analysis results. Raw streaming data files are excluded from version control by default.
+👩‍💻 Author
+Mahnoosh Bagheri
 
-For reproducibility, a sample dataset and documented setup instructions can be added after verifying the data format and the dependencies of the analysis scripts.
-
-Future Improvements
-Add automated tests for data validation.
-Introduce structured logging and configurable monitoring intervals.
-Add a reproducible environment using a dependency file.
-Document anomaly detection and drift detection methods.
-Provide a dashboard for interactive monitoring.
-Add sample data and example execution results.
-Disclaimer
-This project uses simulated data and is intended for educational and portfolio purposes. It should not be considered a production-ready water infrastructure monitoring system.
+GitHub Profile
