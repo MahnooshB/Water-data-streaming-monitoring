@@ -50,7 +50,7 @@ The project demonstrates practical concepts in data engineering, streaming data 
 | **Data Validation** | Identifies malformed JSON records and invalid field values |
 | **Data Quality Monitoring** | Tracks valid and invalid records and calculates error rates |
 | **Model Performance Analysis** | Compares model response times and confidence scores |
-| **Anomaly Analysis** | Analyzes unusual patterns in collected records |
+| **Anomaly Analysis** | Identifies potentially unusual time windows using threshold-based comparisons of error rates, response times, and confidence scores. |
 | **Alert Analysis** | Summarizes monitoring alerts and their distribution across models |
 | **Time-Series Analysis** | Examines monitoring metrics over time |
 | **Data Visualization** | Generates charts for performance, confidence, errors, and alerts |
@@ -128,7 +128,22 @@ Water-data-streaming-monitoring/
 
 ## Results & Visualizations
 
-The project includes visualizations for monitoring the quality and performance of streaming records.
+The monitoring pipeline produces quantitative metrics and visual reports
+to help analyze data quality, model performance, and system behavior.
+
+### Key Metrics
+
+The following results were recorded during one execution of the pipeline:
+
+| Metric | Result |
+|---|---|
+| **Total Records** | 59,771 |
+| **Valid Records** | 58,104 |
+| **Invalid Records** | 1,667 |
+| **Error Rate** | 2.79% |
+| **Average Response Time** | 59.7 ms |
+| **Total Alerts** | 12 |
+> Results may vary across runs because the streaming input is simulated.
 
 ### Error Rate Over Time
 
